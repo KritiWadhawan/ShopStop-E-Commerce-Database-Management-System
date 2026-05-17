@@ -131,7 +131,7 @@ export default function App() {
 
   return (
     <AppProvider>
-      <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background">
         <Header 
           onSearch={handleSearch}
           onShowCart={() => setShowCart(true)}
@@ -141,7 +141,7 @@ export default function App() {
         />
         
         {/* Breadcrumb Navigation */}
-        <nav className="glass-card border-b px-4 sm:px-6 lg:px-8 sticky top-[73px] z-40">
+        <nav className="glass-card border-b px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center space-x-2 py-3 text-sm overflow-x-auto">
               <button
@@ -208,54 +208,20 @@ export default function App() {
           {renderContent()}
         </main>
 
-        {/* Enhanced Footer */}
+        {/* Footer */}
         <footer className="glass-card mt-16 border-t-0">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              <div>
-                <div className="flex items-center space-x-2 mb-4">
-                  <div className="w-8 h-8 bg-gradient-to-br from-violet-500 to-blue-500 rounded-lg flex items-center justify-center">
-                    <span className="text-white font-bold">S</span>
-                  </div>
-                  <h3 className="font-bold bg-gradient-to-r from-violet-500 to-blue-500 bg-clip-text text-transparent">
-                    ShopStop
-                  </h3>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Your neighborhood shopping platform. Shop local, support businesses, get fast delivery.
-                </p>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 text-center">
+            <div className="flex items-center justify-center space-x-2 mb-4">
+              <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold">S</span>
               </div>
-              
-              <div>
-                <h4 className="mb-4 font-medium">For Customers</h4>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li><a href="#" className="hover:text-primary transition-colors">Download App</a></li>
-                  <li><a href="#" className="hover:text-primary transition-colors">Track Order</a></li>
-                  <li><a href="#" className="hover:text-primary transition-colors">Help Center</a></li>
-                  <li><a href="#" className="hover:text-primary transition-colors">Terms & Conditions</a></li>
-                </ul>
-              </div>
-              
-              <div>
-                <h4 className="mb-4 font-medium">For Sellers</h4>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li><a href="#" className="hover:text-primary transition-colors">Become a Seller</a></li>
-                  <li><a href="#" className="hover:text-primary transition-colors">Seller Dashboard</a></li>
-                  <li><a href="#" className="hover:text-primary transition-colors">Pricing Plans</a></li>
-                  <li><a href="#" className="hover:text-primary transition-colors">Seller Support</a></li>
-                </ul>
-              </div>
-              
-              <div>
-                <h4 className="mb-4 font-medium">Company</h4>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li><a href="#" className="hover:text-primary transition-colors">About Us</a></li>
-                  <li><a href="#" className="hover:text-primary transition-colors">Careers</a></li>
-                  <li><a href="#" className="hover:text-primary transition-colors">Press</a></li>
-                  <li><a href="#" className="hover:text-primary transition-colors">Contact</a></li>
-                </ul>
-              </div>
+              <h3 className="font-bold bg-gradient-to-r from-green-500 to-emerald-500 bg-clip-text text-transparent">
+                ShopStop
+              </h3>
             </div>
+            <p className="text-sm text-muted-foreground max-w-xl mx-auto">
+              Your neighborhood shopping platform. Shop local, support businesses, get fast delivery.
+            </p>
           </div>
         </footer>
 
@@ -331,7 +297,7 @@ const ProductDetail: React.FC<{
 
         {/* Enhanced Price Comparison Section */}
         {hasMultipleSellers && (
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 p-6 rounded-xl border border-blue-200 dark:border-blue-800">
+          <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 p-6 rounded-xl border border-green-200 dark:border-green-800">
             <h4 className="font-medium mb-4 text-blue-700 dark:text-blue-300">
               💰 Price Comparison - Available at {variants.length} shops
             </h4>

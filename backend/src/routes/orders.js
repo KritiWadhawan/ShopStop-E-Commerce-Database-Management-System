@@ -24,6 +24,42 @@ r.post('/', async (req, res, next) => {
   }
 });
 
+// POST /api/orders/direct
+//   { shopId, addressId, items: [{ listingId, quantity }] }
+// Fills the user's cart with these items then places an order in one
+// shot.  Used by the frontend "Place Order" button so the demo doesn't
+// have to maintain a separate cart in MySQL.
+r.post('/direct', async (req, res, next) => {
+  const conn = await pool.getConnection();
+  try {
+    const { shopId, addressId, items } = req.body;
+    if (!Array.isArray(items) || items.length === 0)
+      return res.status(400).json({ error: 'No items provided' });
+
+    await conn.beginTransaction();
+
+    // 1) ensure each item is in the user's cart (stock checked by sp_add_to_cart)
+    for (const it of items) {
+      await conn.query('CALL sp_add_to_cart(?,?,?)',
+        [req.user.uid, it.listingId, it.quantity]);
+    }
+
+    // 2) place the order (triggers decrement stock atomically)
+    await conn.query('SET @oid := 0');
+    await conn.query('CALL sp_place_order(?,?,?, @oid)',
+      [req.user.uid, shopId, addressId]);
+    const [[{ '@oid': oid }]] = await conn.query('SELECT @oid');
+
+    await conn.commit();
+    res.status(201).json({ orderId: oid });
+  } catch (e) {
+    await conn.rollback();
+    if (e.sqlState === '45000')
+      return res.status(400).json({ error: e.sqlMessage });
+    next(e);
+  } finally { conn.release(); }
+});
+
 // GET /api/orders          (current user's orders)
 r.get('/', async (req, res, next) => {
   try {

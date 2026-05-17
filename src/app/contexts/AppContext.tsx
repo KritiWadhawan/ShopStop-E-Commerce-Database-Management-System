@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { User, Product, CartItem, UserLocation, Shop, Order } from '../types';
 import { users, userLocation, shops } from '../data/mockData';
+import { api, auth } from '../data/api';
 
 interface AppContextType {
   user: User | null;
@@ -22,12 +23,16 @@ interface AppContextType {
   clearCompare: () => void;
   setIsLoginOpen: (open: boolean) => void;
   setIsLocationModalOpen: (open: boolean) => void;
-  login: (email: string, password: string) => boolean;
+  login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
   requestLocation: () => void;
   calculateDistance: (shopLocation: any) => number;
   getNearbyShops: () => Shop[];
-  placeOrder: (shopId: string, deliveryAddress: any) => string;
+  placeOrder: (shopId: string, deliveryAddress: any) => Promise<string>;
+  /** Live stock counts from the database, keyed by shop_product.listing_id. */
+  liveStock: Record<number, number>;
+  /** Re-fetch live stock from the backend. */
+  refreshStock: () => Promise<void>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -42,7 +47,24 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
 
-  // Initialize with mock location
+  // Live stock counts from the backend, keyed by listing_id.
+  // Falls back to the mockData stockCount when the API is unreachable.
+  const [liveStock, setLiveStock] = useState<Record<number, number>>({});
+
+  const refreshStock = async () => {
+    try {
+      const rows: any[] = await api.products();
+      const next: Record<number, number> = {};
+      for (const row of rows) {
+        if (row.listing_id != null) next[row.listing_id] = Number(row.stock_count);
+      }
+      setLiveStock(next);
+    } catch (err) {
+      console.warn('Could not refresh stock from backend:', err);
+    }
+  };
+
+  // Initialize with mock location + live stock
   useEffect(() => {
     setUserCurrentLocation({
       latitude: userLocation.latitude,
@@ -50,6 +72,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       address: userLocation.address
     });
     setNearbyShops(shops);
+    refreshStock();
   }, []);
 
   const addToCart = (product: Product, quantity = 1) => {
@@ -106,18 +129,43 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     setCompareProducts([]);
   };
 
-  const login = (email: string, password: string): boolean => {
-    // Mock login - in real app this would call an API
-    const foundUser = users.find(u => u.email === email);
-    if (foundUser) {
-      setUser(foundUser);
+  const login = async (email: string, password: string): Promise<boolean> => {
+    try {
+      // Hit the real backend (sets JWT in localStorage via api.ts).
+      const apiUser: any = await api.login(email, password);
+
+      // Marry the response with the local mock User (for avatar / addresses).
+      const mock = users.find(u => u.email === email);
+      const merged: User = {
+        id: String(apiUser?.id ?? mock?.id ?? '0'),
+        name: apiUser?.name ?? mock?.name ?? 'User',
+        email: apiUser?.email ?? email,
+        phone: apiUser?.phone ?? mock?.phone ?? '',
+        role: (apiUser?.role ?? mock?.role ?? 'buyer') as 'buyer' | 'seller',
+        avatar: apiUser?.avatar ?? mock?.avatar,
+        location: mock?.location,
+        addresses: mock?.addresses ?? [],
+        shopId: mock?.shopId,
+      };
+      setUser(merged);
       setIsLoginOpen(false);
       return true;
+    } catch (err) {
+      console.error('Login failed:', err);
+      // Fallback: pure-mock login so the UI demo still works even when the
+      // backend is unreachable.
+      const foundUser = users.find(u => u.email === email);
+      if (foundUser) {
+        setUser(foundUser);
+        setIsLoginOpen(false);
+        return true;
+      }
+      return false;
     }
-    return false;
   };
 
   const logout = () => {
+    auth.setToken(null);
     setUser(null);
     clearCart();
   };
@@ -173,15 +221,41 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       .sort((a, b) => (a.distance || 0) - (b.distance || 0));
   };
 
-  const placeOrder = (shopId: string, deliveryAddress: any): string => {
-    const orderId = `order_${Date.now()}`;
+  const placeOrder = async (shopId: string, deliveryAddress: any): Promise<string> => {
     const shopItems = cart.filter(item => item.product.shop.id === shopId);
     const shop = shops.find(s => s.id === shopId);
-    
+
     if (!shop || shopItems.length === 0) return '';
 
     const subtotal = shopItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
-    
+
+    // ---- Live DB write through the backend ----
+    // Requires the buyer to be logged-in.  The backend's sp_place_order +
+    // trg_before_orderitem_insert handle stock validation and decrement
+    // atomically.  If any product is over-stocked we get a 400 back here.
+    let dbOrderId: number | null = null;
+    if (auth.token()) {
+      try {
+        const items = shopItems
+          .filter(it => typeof it.product.listingId === 'number')
+          .map(it => ({ listingId: it.product.listingId as number, quantity: it.quantity }));
+
+        if (items.length > 0) {
+          const res = await api.orders.placeDirect(
+            Number(shopId),
+            1,            // address_id 1 is the seeded "Home" address for the demo buyer
+            items
+          );
+          dbOrderId = res?.orderId ?? null;
+        }
+      } catch (err: any) {
+        // Bubble the error up so the Cart can show "Out of stock" etc.
+        throw err;
+      }
+    }
+
+    const orderId = dbOrderId ? `order_${dbOrderId}` : `order_${Date.now()}`;
+
     const newOrder: Order = {
       id: orderId,
       userId: user?.id || 'guest',
@@ -199,17 +273,22 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         {
           id: '1',
           status: 'placed',
-          message: 'Order placed successfully',
+          message: dbOrderId
+            ? `Order #${dbOrderId} placed successfully (stock updated in DB)`
+            : 'Order placed successfully (offline mode)',
           timestamp: new Date().toISOString()
         }
       ]
     };
 
     setActiveOrders(prev => [...prev, newOrder]);
-    
-    // Remove ordered items from cart
+
+    // Remove ordered items from local cart
     setCart(prev => prev.filter(item => !shopItems.find(ordered => ordered.product.id === item.product.id)));
-    
+
+    // Refresh live stock so the UI shows the new (decremented) counts.
+    if (dbOrderId) refreshStock();
+
     return orderId;
   };
 
@@ -239,7 +318,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       requestLocation,
       calculateDistance,
       getNearbyShops,
-      placeOrder
+      placeOrder,
+      liveStock,
+      refreshStock,
     }}>
       {children}
     </AppContext.Provider>

@@ -109,17 +109,32 @@ BEGIN
     DECLARE v_subtotal     DECIMAL(12,2) DEFAULT 0;
     DECLARE v_delivery_fee DECIMAL(10,2);
     DECLARE v_eta          VARCHAR(40);
+    DECLARE v_insufficient INT DEFAULT 0;
 
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
         ROLLBACK;
+        DROP TEMPORARY TABLE IF EXISTS tmp_order_lines;
         RESIGNAL;
     END;
 
     START TRANSACTION;
-        SELECT delivery_fee, CONCAT('20-40 min')
+        SELECT delivery_fee, '20-40 min'
                INTO v_delivery_fee, v_eta
           FROM shop WHERE shop_id = p_shop_id;
+
+        -- stock validation BEFORE any writes
+        SELECT COUNT(*) INTO v_insufficient
+          FROM cart c
+          JOIN cart_item    ci ON ci.cart_id    = c.cart_id
+          JOIN shop_product sp ON sp.listing_id = ci.listing_id
+         WHERE c.user_id = p_user_id
+           AND sp.shop_id = p_shop_id
+           AND sp.stock_count < ci.quantity;
+        IF v_insufficient > 0 THEN
+            SIGNAL SQLSTATE '45000'
+              SET MESSAGE_TEXT = 'Insufficient stock for one or more items';
+        END IF;
 
         -- compute subtotal from cart items belonging to that shop
         SELECT IFNULL(SUM(sp.price * ci.quantity),0)
@@ -134,25 +149,48 @@ BEGIN
               SET MESSAGE_TEXT = 'No items from that shop in cart';
         END IF;
 
+        -- stage cart lines in a TEMP table so the INSERT into order_item
+        -- below does NOT reference shop_product directly.  This avoids
+        -- MySQL's "Can't update table 'shop_product' in stored function/
+        -- trigger because it is already used by statement which invoked
+        -- this stored function/trigger" error.
+        DROP TEMPORARY TABLE IF EXISTS tmp_order_lines;
+        CREATE TEMPORARY TABLE tmp_order_lines (
+            listing_id INT,
+            quantity   INT,
+            unit_price DECIMAL(10,2)
+        );
+        INSERT INTO tmp_order_lines (listing_id, quantity, unit_price)
+        SELECT sp.listing_id, ci.quantity, sp.price
+          FROM cart c
+          JOIN cart_item    ci ON ci.cart_id    = c.cart_id
+          JOIN shop_product sp ON sp.listing_id = ci.listing_id
+         WHERE c.user_id = p_user_id AND sp.shop_id = p_shop_id;
+
+        -- decrement stock directly here (the BEFORE-INSERT trigger has
+        -- been removed because of the recursive-table-access limitation)
+        UPDATE shop_product sp
+          JOIN tmp_order_lines t ON t.listing_id = sp.listing_id
+           SET sp.stock_count = sp.stock_count - t.quantity;
+
+        -- create the order row (AFTER-INSERT trigger writes first tracking row)
         INSERT INTO `order` (user_id, shop_id, subtotal, delivery_fee, total,
                              status, delivery_address_id, estimated_delivery_time)
         VALUES (p_user_id, p_shop_id, v_subtotal, v_delivery_fee,
                 v_subtotal + v_delivery_fee, 'placed', p_address_id, v_eta);
         SET p_order_id = LAST_INSERT_ID();
 
-        -- copy lines (BEFORE-INSERT trigger checks/decrements stock)
+        -- copy lines from the temp table (no shop_product reference here)
         INSERT INTO order_item (order_id, listing_id, quantity, unit_price)
-        SELECT p_order_id, ci.listing_id, ci.quantity, sp.price
-          FROM cart c
-          JOIN cart_item    ci ON ci.cart_id    = c.cart_id
-          JOIN shop_product sp ON sp.listing_id = ci.listing_id
-         WHERE c.user_id = p_user_id AND sp.shop_id = p_shop_id;
+        SELECT p_order_id, listing_id, quantity, unit_price FROM tmp_order_lines;
 
         -- empty those lines from the cart
         DELETE ci FROM cart_item ci
           JOIN cart c          ON c.cart_id     = ci.cart_id
           JOIN shop_product sp ON sp.listing_id = ci.listing_id
          WHERE c.user_id = p_user_id AND sp.shop_id = p_shop_id;
+
+        DROP TEMPORARY TABLE IF EXISTS tmp_order_lines;
     COMMIT;
 END$$
 

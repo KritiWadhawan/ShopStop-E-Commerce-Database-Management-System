@@ -30,25 +30,11 @@ BEGIN
 END$$
 
 -- ---------------------------------------------------------------------
--- 2. Block under-stocked order lines; otherwise reduce stock atomically.
+-- (Stock validation + decrement is now handled inside sp_place_order
+--  itself, because MySQL forbids a trigger from updating the same table
+--  that the statement which invoked the trigger is reading.  See the
+--  comment in 04_procedures.sql > sp_place_order for details.)
 -- ---------------------------------------------------------------------
-CREATE TRIGGER trg_before_orderitem_insert
-BEFORE INSERT ON order_item
-FOR EACH ROW
-BEGIN
-    DECLARE v_stock INT;
-    SELECT stock_count INTO v_stock
-      FROM shop_product WHERE listing_id = NEW.listing_id FOR UPDATE;
-
-    IF v_stock IS NULL OR v_stock < NEW.quantity THEN
-        SIGNAL SQLSTATE '45000'
-          SET MESSAGE_TEXT = 'Out of stock';
-    END IF;
-
-    UPDATE shop_product
-       SET stock_count = stock_count - NEW.quantity
-     WHERE listing_id = NEW.listing_id;
-END$$
 
 -- ---------------------------------------------------------------------
 -- 3. After an order is created, write the first 'placed' tracking row.

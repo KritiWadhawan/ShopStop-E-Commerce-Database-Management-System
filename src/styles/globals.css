@@ -12,16 +12,16 @@
   --popover-foreground: #0a0a0a;
   
   /* Premium Gradients */
-  --primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --primary: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
   --primary-foreground: #ffffff;
-  --secondary: rgba(102, 126, 234, 0.1);
-  --secondary-foreground: #667eea;
-  
+  --secondary: rgba(22, 163, 74, 0.1);
+  --secondary-foreground: #16a34a;
+
   /* Glass Morphism Colors */
   --muted: rgba(248, 250, 252, 0.8);
   --muted-foreground: #64748b;
-  --accent: rgba(102, 126, 234, 0.05);
-  --accent-foreground: #667eea;
+  --accent: rgba(22, 163, 74, 0.05);
+  --accent-foreground: #16a34a;
   
   /* Status Colors */
   --destructive: #ef4444;
@@ -32,7 +32,7 @@
   --warning-foreground: #ffffff;
   
   /* Borders and Inputs */
-  --border: rgba(102, 126, 234, 0.15);
+  --border: rgba(22, 163, 74, 0.15);
   --input: transparent;
   --input-background: rgba(248, 250, 252, 0.5);
   --switch-background: #cbd5e1;
@@ -49,12 +49,12 @@
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
   
-  --ring: rgba(102, 126, 234, 0.5);
-  --chart-1: #667eea;
-  --chart-2: #f093fb;
-  --chart-3: #4facfe;
-  --chart-4: #43e97b;
-  --chart-5: #ffecd2;
+  --ring: rgba(22, 163, 74, 0.5);
+  --chart-1: #16a34a;
+  --chart-2: #4ade80;
+  --chart-3: #22c55e;
+  --chart-4: #15803d;
+  --chart-5: #86efac;
   
   --radius: 1rem;
   --radius-sm: 0.5rem;
@@ -63,21 +63,21 @@
   --radius-xl: 1.5rem;
   
   /* Premium Gradients */
-  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  --gradient-success: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-  --gradient-warning: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  --gradient-primary: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+  --gradient-secondary: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+  --gradient-success: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  --gradient-warning: linear-gradient(135deg, #86efac 0%, #4ade80 100%);
   --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-  
+
   /* Sidebar */
   --sidebar: rgba(255, 255, 255, 0.9);
   --sidebar-foreground: #0a0a0a;
-  --sidebar-primary: #667eea;
+  --sidebar-primary: #16a34a;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: rgba(102, 126, 234, 0.1);
-  --sidebar-accent-foreground: #667eea;
-  --sidebar-border: rgba(102, 126, 234, 0.1);
-  --sidebar-ring: rgba(102, 126, 234, 0.5);
+  --sidebar-accent: rgba(22, 163, 74, 0.1);
+  --sidebar-accent-foreground: #16a34a;
+  --sidebar-border: rgba(22, 163, 74, 0.1);
+  --sidebar-ring: rgba(22, 163, 74, 0.5);
 }
 
 .dark {
@@ -88,15 +88,15 @@
   --popover: rgba(18, 18, 18, 0.95);
   --popover-foreground: #ffffff;
   
-  --primary: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+  --primary: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
   --primary-foreground: #ffffff;
-  --secondary: rgba(139, 92, 246, 0.1);
-  --secondary-foreground: #a78bfa;
-  
+  --secondary: rgba(34, 197, 94, 0.1);
+  --secondary-foreground: #4ade80;
+
   --muted: rgba(39, 39, 42, 0.8);
   --muted-foreground: #a1a1aa;
-  --accent: rgba(139, 92, 246, 0.05);
-  --accent-foreground: #a78bfa;
+  --accent: rgba(34, 197, 94, 0.05);
+  --accent-foreground: #4ade80;
   
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
@@ -105,32 +105,32 @@
   --warning: #f59e0b;
   --warning-foreground: #ffffff;
   
-  --border: rgba(139, 92, 246, 0.15);
+  --border: rgba(34, 197, 94, 0.15);
   --input: rgba(39, 39, 42, 0.5);
   --input-background: rgba(39, 39, 42, 0.5);
   --switch-background: #52525b;
-  
-  --ring: rgba(139, 92, 246, 0.5);
-  --chart-1: #8b5cf6;
-  --chart-2: #ec4899;
-  --chart-3: #06b6d4;
-  --chart-4: #10b981;
-  --chart-5: #f59e0b;
-  
-  --gradient-primary: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
-  --gradient-secondary: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
-  --gradient-success: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
-  --gradient-warning: linear-gradient(135deg, #10b981 0%, #059669 100%);
+
+  --ring: rgba(34, 197, 94, 0.5);
+  --chart-1: #22c55e;
+  --chart-2: #4ade80;
+  --chart-3: #16a34a;
+  --chart-4: #15803d;
+  --chart-5: #86efac;
+
+  --gradient-primary: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  --gradient-secondary: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+  --gradient-success: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  --gradient-warning: linear-gradient(135deg, #86efac 0%, #4ade80 100%);
   --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
-  
+
   --sidebar: rgba(18, 18, 18, 0.9);
   --sidebar-foreground: #ffffff;
-  --sidebar-primary: #8b5cf6;
+  --sidebar-primary: #22c55e;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: rgba(139, 92, 246, 0.1);
-  --sidebar-accent-foreground: #a78bfa;
-  --sidebar-border: rgba(139, 92, 246, 0.1);
-  --sidebar-ring: rgba(139, 92, 246, 0.5);
+  --sidebar-accent: rgba(34, 197, 94, 0.1);
+  --sidebar-accent-foreground: #4ade80;
+  --sidebar-border: rgba(34, 197, 94, 0.1);
+  --sidebar-ring: rgba(34, 197, 94, 0.5);
 }
 
 @theme inline {
@@ -186,15 +186,15 @@
   body {
     @apply bg-background text-foreground;
     background-attachment: fixed;
-    background-image: 
-      radial-gradient(circle at 25% 25%, rgba(102, 126, 234, 0.05) 0%, transparent 50%),
-      radial-gradient(circle at 75% 75%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
+    background-image:
+      radial-gradient(circle at 25% 25%, rgba(22, 163, 74, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(34, 197, 94, 0.05) 0%, transparent 50%);
   }
-  
+
   .dark body {
-    background-image: 
-      radial-gradient(circle at 25% 25%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
-      radial-gradient(circle at 75% 75%, rgba(102, 126, 234, 0.08) 0%, transparent 50%);
+    background-image:
+      radial-gradient(circle at 25% 25%, rgba(34, 197, 94, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(22, 163, 74, 0.08) 0%, transparent 50%);
   }
 }
 

@@ -229,8 +229,8 @@ export const SellerDashboard: React.FC<SellerDashboardProps> = ({ onClose }) => 
                 <Card className="glass-card border-0">
                   <CardContent className="p-4">
                     <div className="flex items-center space-x-3">
-                      <div className="p-2 bg-purple-100 dark:bg-purple-900/20 rounded-lg">
-                        <Star className="h-5 w-5 text-purple-600" />
+                      <div className="p-2 bg-emerald-100 dark:bg-emerald-900/20 rounded-lg">
+                        <Star className="h-5 w-5 text-emerald-600" />
                       </div>
                       <div>
                         <p className="text-sm text-muted-foreground">Rating</p>

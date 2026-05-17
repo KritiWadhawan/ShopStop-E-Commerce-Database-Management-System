@@ -21,11 +21,11 @@ export const LoginModal: React.FC = () => {
   });
   const [error, setError] = useState('');
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const success = login(loginData.email, loginData.password);
+    const success = await login(loginData.email, loginData.password);
     if (!success) {
-      setError('Invalid credentials. Try: john@example.com or sarah@example.com');
+      setError('Invalid credentials. Try: rahul@example.com / password123');
     } else {
       setError('');
       setLoginData({ email: '', password: '' });
@@ -108,7 +108,8 @@ export const LoginModal: React.FC = () => {
                   Demo accounts:
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  Buyer: john@example.com | Seller: sarah@example.com
+                  Buyer: rahul@example.com / password123<br />
+                  Seller: amit@example.com / password123
                 </p>
               </div>
             </form>

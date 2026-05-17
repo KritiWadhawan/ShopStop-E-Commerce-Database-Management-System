@@ -6,3 +6,4 @@ build/
 backend/.env
 *.log
 .DS_Store
+.claude/

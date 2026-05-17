@@ -209,7 +209,7 @@ export const ProductComparison: React.FC<ProductComparisonProps> = ({ isOpen, on
                   </div>
                   
                   <div className="text-center">
-                    <p className="text-sm font-medium text-purple-600 mb-1">Most Reviews</p>
+                    <p className="text-sm font-medium text-emerald-600 mb-1">Most Reviews</p>
                     <p className="text-sm">
                       {compareProducts.reduce((max, product) => 
                         product.reviewCount > max.reviewCount ? product : max

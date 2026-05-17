@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, ShoppingCart, User, Menu, X, Scale, MapPin, Truck, Bell, Heart, Sun, Moon, Store } from 'lucide-react';
+import { Search, ShoppingCart, User, Menu, X, Scale, MapPin, Truck, Sun, Moon, Store } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Badge } from './ui/badge';
@@ -54,7 +54,7 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <>
       {/* Premium notification bar */}
-      <div className="bg-gradient-to-r from-violet-600 via-purple-600 to-blue-600 text-white text-center py-2 text-sm relative overflow-hidden">
+      <div className="bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 text-white text-center py-2 text-sm relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-20"></div>
         <div className="relative z-10 flex items-center justify-center space-x-4">
           <span className="animate-pulse">🚚</span>
@@ -69,13 +69,13 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Premium Logo */}
             <div className="flex items-center space-x-3">
               <div className="relative">
-                <div className="w-12 h-12 bg-gradient-to-br from-violet-500 via-purple-500 to-blue-500 rounded-xl flex items-center justify-center shadow-lg">
+                <div className="w-12 h-12 bg-gradient-to-br from-green-500 via-emerald-500 to-teal-500 rounded-xl flex items-center justify-center shadow-lg">
                   <span className="text-white font-bold text-xl">S</span>
                 </div>
-                <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-green-400 to-blue-500 rounded-full animate-pulse"></div>
+                <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-green-400 to-teal-500 rounded-full animate-pulse"></div>
               </div>
               <div>
-                <h1 className="text-xl font-bold bg-gradient-to-r from-violet-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
+                <h1 className="text-xl font-bold bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent">
                   ShopStop
                 </h1>
                 <p className="text-xs text-muted-foreground hidden sm:block">Shop Local, Live Better</p>
@@ -84,13 +84,13 @@ export const Header: React.FC<HeaderProps> = ({
 
             {/* Enhanced Location Display */}
             <div className="hidden lg:flex items-center space-x-3 text-sm">
-              <div className="flex items-center space-x-2 bg-gradient-to-r from-violet-50 to-purple-50 dark:from-violet-900/20 dark:to-purple-900/20 px-3 py-2 rounded-lg border border-violet-200 dark:border-violet-800">
-                <MapPin className="h-4 w-4 text-violet-500" />
+              <div className="flex items-center space-x-2 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 px-3 py-2 rounded-lg border border-green-200 dark:border-green-800">
+                <MapPin className="h-4 w-4 text-green-500" />
                 <div>
-                  <p className="text-xs text-violet-600 dark:text-violet-400 font-medium">Deliver to</p>
+                  <p className="text-xs text-green-600 dark:text-green-400 font-medium">Deliver to</p>
                   <button 
                     onClick={() => setIsLocationModalOpen(true)}
-                    className="font-medium hover:text-violet-600 transition-colors truncate max-w-32 text-left"
+                    className="font-medium hover:text-green-600 transition-colors truncate max-w-32 text-left"
                   >
                     {userLocation?.address || 'Select location'}
                   </button>
@@ -107,13 +107,13 @@ export const Header: React.FC<HeaderProps> = ({
                     placeholder="Search for products, brands, categories..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-12 pr-4 h-12 bg-white/80 dark:bg-gray-900/80 border-violet-200 dark:border-violet-800 focus:border-violet-500 focus:ring-violet-500 rounded-xl shadow-sm transition-all duration-200 focus:shadow-lg"
+                    className="w-full pl-12 pr-4 h-12 bg-white/80 dark:bg-gray-900/80 border-green-200 dark:border-green-800 focus:border-green-500 focus:ring-green-500 rounded-xl shadow-sm transition-all duration-200 focus:shadow-lg"
                   />
-                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-violet-500" />
+                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-green-500" />
                   <Button 
                     type="submit"
                     size="sm"
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-600 hover:to-purple-600 rounded-lg"
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 rounded-lg"
                   >
                     Search
                   </Button>
@@ -128,7 +128,7 @@ export const Header: React.FC<HeaderProps> = ({
                 variant="ghost"
                 size="sm"
                 onClick={handleBecomeSellerClick}
-                className="relative p-3 hover:bg-violet-50 dark:hover:bg-violet-900/20 rounded-xl text-violet-600 dark:text-violet-400 font-medium"
+                className="relative p-3 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-xl text-green-600 dark:text-green-400 font-medium"
               >
                 <Store className="h-5 w-5 mr-2" />
                 {isSeller ? 'Dashboard' : 'Sell'}
@@ -139,37 +139,13 @@ export const Header: React.FC<HeaderProps> = ({
                 variant="ghost"
                 size="sm"
                 onClick={toggleDarkMode}
-                className="relative p-3 hover:bg-violet-50 dark:hover:bg-violet-900/20 rounded-xl"
+                className="relative p-3 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-xl"
               >
                 {isDarkMode ? (
-                  <Sun className="h-5 w-5 text-violet-500" />
+                  <Sun className="h-5 w-5 text-green-500" />
                 ) : (
-                  <Moon className="h-5 w-5 text-violet-500" />
+                  <Moon className="h-5 w-5 text-green-500" />
                 )}
-              </Button>
-
-              {/* Notifications */}
-              <Button
-                variant="ghost"
-                size="sm"
-                className="relative p-3 hover:bg-violet-50 dark:hover:bg-violet-900/20 rounded-xl"
-              >
-                <Bell className="h-5 w-5 text-violet-500" />
-                <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs bg-red-500 animate-pulse">
-                  3
-                </Badge>
-              </Button>
-
-              {/* Wishlist */}
-              <Button
-                variant="ghost"
-                size="sm"
-                className="relative p-3 hover:bg-violet-50 dark:hover:bg-violet-900/20 rounded-xl"
-              >
-                <Heart className="h-5 w-5 text-violet-500" />
-                <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs bg-pink-500">
-                  7
-                </Badge>
               </Button>
 
               {/* Track Orders */}
@@ -177,9 +153,9 @@ export const Header: React.FC<HeaderProps> = ({
                 variant="ghost"
                 size="sm"
                 onClick={onShowOrders}
-                className="relative p-3 hover:bg-violet-50 dark:hover:bg-violet-900/20 rounded-xl"
+                className="relative p-3 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-xl"
               >
-                <Truck className="h-5 w-5 text-violet-500" />
+                <Truck className="h-5 w-5 text-green-500" />
                 {activeOrders.length > 0 && (
                   <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs bg-green-500 animate-pulse">
                     {activeOrders.length}
@@ -192,9 +168,9 @@ export const Header: React.FC<HeaderProps> = ({
                 variant="ghost"
                 size="sm"
                 onClick={onShowCompare}
-                className="relative p-3 hover:bg-violet-50 dark:hover:bg-violet-900/20 rounded-xl"
+                className="relative p-3 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-xl"
               >
-                <Scale className="h-5 w-5 text-violet-500" />
+                <Scale className="h-5 w-5 text-green-500" />
                 {compareProducts.length > 0 && (
                   <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs bg-blue-500">
                     {compareProducts.length}
@@ -207,9 +183,9 @@ export const Header: React.FC<HeaderProps> = ({
                 variant="ghost"
                 size="sm"
                 onClick={onShowCart}
-                className="relative p-3 hover:bg-violet-50 dark:hover:bg-violet-900/20 rounded-xl"
+                className="relative p-3 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-xl"
               >
-                <ShoppingCart className="h-5 w-5 text-violet-500" />
+                <ShoppingCart className="h-5 w-5 text-green-500" />
                 {cartItemCount > 0 && (
                   <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs bg-orange-500 animate-bounce">
                     {cartItemCount}
@@ -220,7 +196,7 @@ export const Header: React.FC<HeaderProps> = ({
               {/* User Actions */}
               {user ? (
                 <div className="flex items-center space-x-3 ml-2">
-                  <div className="flex items-center space-x-2 bg-gradient-to-r from-violet-50 to-purple-50 dark:from-violet-900/20 dark:to-purple-900/20 px-3 py-2 rounded-xl border border-violet-200 dark:border-violet-800">
+                  <div className="flex items-center space-x-2 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 px-3 py-2 rounded-xl border border-green-200 dark:border-green-800">
                     <img 
                       src={user.avatar} 
                       alt={user.name}
@@ -229,7 +205,7 @@ export const Header: React.FC<HeaderProps> = ({
                     <div className="text-left">
                       <span className="text-sm font-medium block">Hi, {user.name.split(' ')[0]}!</span>
                       {isSeller && (
-                        <span className="text-xs text-violet-600 dark:text-violet-400">Seller</span>
+                        <span className="text-xs text-green-600 dark:text-green-400">Seller</span>
                       )}
                     </div>
                   </div>
@@ -241,7 +217,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <Button 
                   size="sm" 
                   onClick={() => setIsLoginOpen(true)} 
-                  className="ml-2 bg-gradient-to-r from-violet-500 via-purple-500 to-blue-500 hover:from-violet-600 hover:via-purple-600 hover:to-blue-600 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+                  className="ml-2 bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 hover:from-green-600 hover:via-emerald-600 hover:to-teal-600 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
                 >
                   <User className="h-4 w-4 mr-2" />
                   Sign In
@@ -262,16 +238,16 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Enhanced Mobile Menu */}
           {isMobileMenuOpen && (
-            <div className="md:hidden py-4 border-t border-violet-200 dark:border-violet-800 space-y-4 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
+            <div className="md:hidden py-4 border-t border-green-200 dark:border-green-800 space-y-4 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
               {/* Mobile Location */}
               <div className="flex items-center space-x-3 px-2">
-                <div className="flex items-center space-x-2 bg-gradient-to-r from-violet-50 to-purple-50 dark:from-violet-900/20 dark:to-purple-900/20 px-3 py-2 rounded-lg border border-violet-200 dark:border-violet-800 flex-1">
-                  <MapPin className="h-4 w-4 text-violet-500" />
+                <div className="flex items-center space-x-2 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 px-3 py-2 rounded-lg border border-green-200 dark:border-green-800 flex-1">
+                  <MapPin className="h-4 w-4 text-green-500" />
                   <div>
-                    <p className="text-xs text-violet-600 dark:text-violet-400 font-medium">Deliver to</p>
+                    <p className="text-xs text-green-600 dark:text-green-400 font-medium">Deliver to</p>
                     <button 
                       onClick={() => setIsLocationModalOpen(true)}
-                      className="font-medium hover:text-violet-600 transition-colors text-left"
+                      className="font-medium hover:text-green-600 transition-colors text-left"
                     >
                       {userLocation?.address || 'Select location'}
                     </button>
@@ -286,9 +262,9 @@ export const Header: React.FC<HeaderProps> = ({
                   placeholder="Search products, brands..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-4 h-12 bg-white/80 dark:bg-gray-900/80 border-violet-200 dark:border-violet-800 rounded-xl"
+                  className="w-full pl-12 pr-4 h-12 bg-white/80 dark:bg-gray-900/80 border-green-200 dark:border-green-800 rounded-xl"
                 />
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-violet-500" />
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-green-500" />
               </form>
 
               {/* Mobile Actions Grid */}
@@ -297,9 +273,9 @@ export const Header: React.FC<HeaderProps> = ({
                   variant="ghost"
                   size="sm"
                   onClick={handleBecomeSellerClick}
-                  className="flex flex-col items-center space-y-1 h-auto py-3 rounded-xl hover:bg-violet-50 dark:hover:bg-violet-900/20"
+                  className="flex flex-col items-center space-y-1 h-auto py-3 rounded-xl hover:bg-green-50 dark:hover:bg-green-900/20"
                 >
-                  <Store className="h-5 w-5 text-violet-500" />
+                  <Store className="h-5 w-5 text-green-500" />
                   <span className="text-xs">{isSeller ? 'Dashboard' : 'Sell'}</span>
                 </Button>
 
@@ -307,10 +283,10 @@ export const Header: React.FC<HeaderProps> = ({
                   variant="ghost"
                   size="sm"
                   onClick={onShowOrders}
-                  className="flex flex-col items-center space-y-1 h-auto py-3 rounded-xl hover:bg-violet-50 dark:hover:bg-violet-900/20"
+                  className="flex flex-col items-center space-y-1 h-auto py-3 rounded-xl hover:bg-green-50 dark:hover:bg-green-900/20"
                 >
                   <div className="relative">
-                    <Truck className="h-5 w-5 text-violet-500" />
+                    <Truck className="h-5 w-5 text-green-500" />
                     {activeOrders.length > 0 && (
                       <Badge className="absolute -top-2 -right-2 h-4 w-4 rounded-full p-0 flex items-center justify-center text-xs bg-green-500">
                         {activeOrders.length}
@@ -324,10 +300,10 @@ export const Header: React.FC<HeaderProps> = ({
                   variant="ghost"
                   size="sm"
                   onClick={onShowCompare}
-                  className="flex flex-col items-center space-y-1 h-auto py-3 rounded-xl hover:bg-violet-50 dark:hover:bg-violet-900/20"
+                  className="flex flex-col items-center space-y-1 h-auto py-3 rounded-xl hover:bg-green-50 dark:hover:bg-green-900/20"
                 >
                   <div className="relative">
-                    <Scale className="h-5 w-5 text-violet-500" />
+                    <Scale className="h-5 w-5 text-green-500" />
                     {compareProducts.length > 0 && (
                       <Badge className="absolute -top-2 -right-2 h-4 w-4 rounded-full p-0 flex items-center justify-center text-xs bg-blue-500">
                         {compareProducts.length}
@@ -341,10 +317,10 @@ export const Header: React.FC<HeaderProps> = ({
                   variant="ghost"
                   size="sm"
                   onClick={onShowCart}
-                  className="flex flex-col items-center space-y-1 h-auto py-3 rounded-xl hover:bg-violet-50 dark:hover:bg-violet-900/20"
+                  className="flex flex-col items-center space-y-1 h-auto py-3 rounded-xl hover:bg-green-50 dark:hover:bg-green-900/20"
                 >
                   <div className="relative">
-                    <ShoppingCart className="h-5 w-5 text-violet-500" />
+                    <ShoppingCart className="h-5 w-5 text-green-500" />
                     {cartItemCount > 0 && (
                       <Badge className="absolute -top-2 -right-2 h-4 w-4 rounded-full p-0 flex items-center justify-center text-xs bg-orange-500">
                         {cartItemCount}
@@ -356,7 +332,7 @@ export const Header: React.FC<HeaderProps> = ({
               </div>
 
               {/* Mobile User Section */}
-              <div className="pt-4 border-t border-violet-200 dark:border-violet-800">
+              <div className="pt-4 border-t border-green-200 dark:border-green-800">
                 {user ? (
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
@@ -368,7 +344,7 @@ export const Header: React.FC<HeaderProps> = ({
                       <div>
                         <span className="font-medium">Hi, {user.name}!</span>
                         {isSeller && (
-                          <span className="block text-xs text-violet-600 dark:text-violet-400">Seller Account</span>
+                          <span className="block text-xs text-green-600 dark:text-green-400">Seller Account</span>
                         )}
                       </div>
                     </div>
@@ -380,7 +356,7 @@ export const Header: React.FC<HeaderProps> = ({
                   <Button 
                     size="sm" 
                     onClick={() => setIsLoginOpen(true)} 
-                    className="w-full bg-gradient-to-r from-violet-500 via-purple-500 to-blue-500 hover:from-violet-600 hover:via-purple-600 hover:to-blue-600 rounded-xl"
+                    className="w-full bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 hover:from-green-600 hover:via-emerald-600 hover:to-teal-600 rounded-xl"
                   >
                     <User className="h-4 w-4 mr-2" />
                     Sign In

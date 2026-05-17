@@ -13,17 +13,70 @@ interface CartProps {
 }
 
 export const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
-  const { cart, updateCartQuantity, removeFromCart, clearCart } = useApp();
+  const { cart, updateCartQuantity, removeFromCart, clearCart, placeOrder, user, userLocation, setIsLoginOpen } = useApp();
 
   const subtotal = cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
   const tax = subtotal * 0.08; // 8% tax
   const shipping = subtotal > 100 ? 0 : 10; // Free shipping over ₹100
   const total = subtotal + tax + shipping;
 
-  const handleCheckout = () => {
-    // In a real app, this would navigate to checkout
-    alert('Checkout functionality would be implemented with payment processing');
-    onClose();
+  const handlePlaceOrder = async () => {
+    if (cart.length === 0) return;
+
+    // Backend stock check requires login. Prompt if not signed in.
+    if (!user) {
+      alert('Please sign in to place an order so we can update real stock in the database.');
+      onClose();
+      setIsLoginOpen(true);
+      return;
+    }
+
+    // Group cart items by shop and place a separate order per shop
+    const shopIds = Array.from(new Set(cart.map((item) => item.product.shop.id)));
+
+    const deliveryAddress = user?.addresses?.[0] || {
+      id: 'guest',
+      label: 'Home',
+      address: userLocation?.address || 'Bandra West, Mumbai',
+      location: {
+        latitude: userLocation?.latitude || 19.076,
+        longitude: userLocation?.longitude || 72.8777,
+        address: userLocation?.address || 'Bandra West, Mumbai',
+        city: 'Mumbai',
+        state: 'Maharashtra',
+        zipCode: '400050',
+      },
+      isDefault: true,
+    };
+
+    const placed: string[] = [];
+    const failed: string[] = [];
+
+    for (const shopId of shopIds) {
+      try {
+        const id = await placeOrder(shopId, deliveryAddress);
+        if (id) placed.push(id);
+      } catch (err: any) {
+        failed.push(err?.message || 'Unknown error');
+      }
+    }
+
+    if (failed.length > 0) {
+      alert(
+        `❌ Could not place ${failed.length} order(s):\n\n${failed.join('\n')}\n\n` +
+          (placed.length > 0
+            ? `${placed.length} other order(s) placed successfully.`
+            : 'Please reduce the quantity and try again.')
+      );
+    } else if (placed.length > 0) {
+      alert(
+        `✅ ${placed.length} order${
+          placed.length > 1 ? 's' : ''
+        } placed successfully! Stock has been updated in the database. Track them from the 🚚 icon in the header.`
+      );
+    }
+
+    if (placed.length > 0) onClose();
   };
 
   if (cart.length === 0) {
@@ -148,8 +201,11 @@ export const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
             </div>
           </div>
 
-          <Button className="w-full mt-4" onClick={handleCheckout}>
-            Proceed to Checkout
+          <Button
+            className="w-full mt-4 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold"
+            onClick={handlePlaceOrder}
+          >
+            Place Order
           </Button>
         </div>
       </SheetContent>

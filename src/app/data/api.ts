@@ -89,6 +89,8 @@ export const api = {
   orders: {
     place:        (shopId: number, addressId: number) =>
                     http<{ orderId: number }>('/orders', { method: 'POST', body: JSON.stringify({ shopId, addressId }) }),
+    placeDirect:  (shopId: number, addressId: number, items: { listingId: number; quantity: number }[]) =>
+                    http<{ orderId: number }>('/orders/direct', { method: 'POST', body: JSON.stringify({ shopId, addressId, items }) }),
     listMine:     ()                  => http('/orders'),
     detail:       (id: number)        => http(`/orders/${id}`),
     updateStatus: (id: number, status: string, message?: string) =>

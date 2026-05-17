@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { ProductCard } from './ProductCard';
 import { Product, Category, Shop } from '../types';
-import { categories, shops, trendingSearches, popularBrands } from '../data/mockData';
+import { categories, shops, trendingSearches, popularBrands, products } from '../data/mockData';
 import { useApp } from '../contexts/AppContext';
 
 interface HomepageProps {
@@ -44,9 +44,9 @@ const features = [
     icon: Award,
     title: 'Premium Quality',
     description: 'Curated products from trusted sellers',
-    color: 'text-purple-600',
-    bgColor: 'bg-purple-100 dark:bg-purple-900/20',
-    borderColor: 'border-purple-200 dark:border-purple-800'
+    color: 'text-emerald-600',
+    bgColor: 'bg-emerald-100 dark:bg-emerald-900/20',
+    borderColor: 'border-emerald-200 dark:border-emerald-800'
   }
 ];
 
@@ -54,7 +54,7 @@ const stats = [
   { icon: Store, value: '10K+', label: 'Local Shops', color: 'text-red-500' },
   { icon: Users, value: '500K+', label: 'Happy Customers', color: 'text-blue-500' },
   { icon: Truck, value: '15 min', label: 'Avg Delivery', color: 'text-green-500' },
-  { icon: TrendingUp, value: '99.2%', label: 'Success Rate', color: 'text-purple-500' }
+  { icon: TrendingUp, value: '99.2%', label: 'Success Rate', color: 'text-emerald-500' }
 ];
 
 export const Homepage: React.FC<HomepageProps> = ({ 
@@ -70,7 +70,7 @@ export const Homepage: React.FC<HomepageProps> = ({
       {/* Hero Section with Premium Design */}
       <section className="relative overflow-hidden rounded-3xl">
         {/* Animated Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-violet-600 via-purple-600 to-blue-600">
+        <div className="absolute inset-0 bg-gradient-to-br from-green-600 via-emerald-600 to-teal-600">
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGNpcmNsZSBpZD0iYSIgY3g9IjUwIiBjeT0iNTAiIHI9IjQwIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4xKSIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9kZWZzPjx1c2UgeGxpbms6aHJlZj0iI2EiLz48L3N2Zz4=')] opacity-20"></div>
           
           {/* Floating Elements */}
@@ -81,8 +81,8 @@ export const Homepage: React.FC<HomepageProps> = ({
         
         <div className="relative z-10 px-6 sm:px-12 lg:px-16 py-16 lg:py-24">
           <div className="max-w-6xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-              <div className="space-y-8">
+            <div className="flex justify-center items-center">
+              <div className="space-y-8 text-center max-w-3xl">
                 {/* Location Badge */}
                 <div className="inline-flex items-center bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 border border-white/30">
                   <MapPin className="h-4 w-4 text-white mr-2" />
@@ -107,21 +107,14 @@ export const Homepage: React.FC<HomepageProps> = ({
                 </div>
 
                 {/* CTA Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Button 
-                    size="lg" 
-                    onClick={() => onViewCategory('all')} 
-                    className="bg-white text-violet-600 hover:bg-white/90 rounded-2xl px-8 py-4 font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-200"
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button
+                    size="lg"
+                    onClick={() => onViewCategory('all')}
+                    className="bg-white text-green-600 hover:bg-white/90 rounded-2xl px-8 py-4 font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-200"
                   >
                     Explore Products
                     <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="lg"
-                    className="border-white/30 text-white hover:bg-white/10 rounded-2xl px-8 py-4 font-semibold text-lg backdrop-blur-sm"
-                  >
-                    Join as Seller
                   </Button>
                 </div>
 
@@ -139,60 +132,6 @@ export const Homepage: React.FC<HomepageProps> = ({
                       </div>
                     );
                   })}
-                </div>
-              </div>
-
-              {/* Hero Visual */}
-              <div className="relative">
-                <div className="relative z-10 grid grid-cols-2 gap-4">
-                  <div className="space-y-4">
-                    <div className="glass-card p-4 rounded-2xl animate-float">
-                      <img 
-                        src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=200&h=200&fit=crop" 
-                        alt="iPhone" 
-                        className="w-full h-32 object-cover rounded-xl"
-                      />
-                      <div className="mt-3">
-                        <h4 className="font-semibold text-white">iPhone 15 Pro</h4>
-                        <p className="text-white/80 text-sm">₹1,199</p>
-                      </div>
-                    </div>
-                    <div className="glass-card p-4 rounded-2xl animate-float" style={{ animationDelay: '1s' }}>
-                      <img 
-                        src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=200&h=200&fit=crop" 
-                        alt="Fashion" 
-                        className="w-full h-24 object-cover rounded-xl"
-                      />
-                      <div className="mt-3">
-                        <h4 className="font-semibold text-white text-sm">Designer Jacket</h4>
-                        <p className="text-white/80 text-xs">₹299</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="space-y-4 pt-8">
-                    <div className="glass-card p-4 rounded-2xl animate-float" style={{ animationDelay: '2s' }}>
-                      <img 
-                        src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=200&h=200&fit=crop" 
-                        alt="Furniture" 
-                        className="w-full h-24 object-cover rounded-xl"
-                      />
-                      <div className="mt-3">
-                        <h4 className="font-semibold text-white text-sm">Modern Sofa</h4>
-                        <p className="text-white/80 text-xs">₹1,299</p>
-                      </div>
-                    </div>
-                    <div className="glass-card p-4 rounded-2xl animate-float" style={{ animationDelay: '3s' }}>
-                      <img 
-                        src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200&h=200&fit=crop" 
-                        alt="Sports" 
-                        className="w-full h-32 object-cover rounded-xl"
-                      />
-                      <div className="mt-3">
-                        <h4 className="font-semibold text-white">Running Shoes</h4>
-                        <p className="text-white/80 text-sm">₹159</p>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -246,22 +185,28 @@ export const Homepage: React.FC<HomepageProps> = ({
           </div>
           
           <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-4 lg:gap-6">
-            {categories.map((category) => (
-              <Card 
-                key={category.id}
-                className="glass-card hover-lift cursor-pointer border-0 text-center group"
-                onClick={() => onViewCategory(category.name)}
-              >
-                <CardContent className="p-4 lg:p-6">
-                  <div className="text-3xl lg:text-4xl mb-3 transform group-hover:scale-110 transition-transform duration-200">
-                    {category.icon}
-                  </div>
-                  <h4 className="text-sm lg:text-base font-medium group-hover:text-violet-600 transition-colors">
-                    {category.name}
-                  </h4>
-                </CardContent>
-              </Card>
-            ))}
+            {categories
+              .filter((category) =>
+                products.some(
+                  (p) => p.category.toLowerCase() === category.name.toLowerCase()
+                )
+              )
+              .map((category) => (
+                <Card
+                  key={category.id}
+                  className="glass-card hover-lift cursor-pointer border-0 text-center group"
+                  onClick={() => onViewCategory(category.name)}
+                >
+                  <CardContent className="p-4 lg:p-6">
+                    <div className="text-3xl lg:text-4xl mb-3 transform group-hover:scale-110 transition-transform duration-200">
+                      {category.icon}
+                    </div>
+                    <h4 className="text-sm lg:text-base font-medium group-hover:text-green-600 transition-colors">
+                      {category.name}
+                    </h4>
+                  </CardContent>
+                </Card>
+              ))}
           </div>
         </div>
       </section>
@@ -276,7 +221,7 @@ export const Homepage: React.FC<HomepageProps> = ({
                 key={index}
                 variant="outline"
                 size="sm"
-                className="rounded-full hover:bg-violet-50 hover:border-violet-200 hover:text-violet-600 transition-colors"
+                className="rounded-full hover:bg-green-50 hover:border-green-200 hover:text-green-600 transition-colors"
                 onClick={() => onViewCategory(search)}
               >
                 {search}
@@ -406,7 +351,7 @@ export const Homepage: React.FC<HomepageProps> = ({
       {/* Newsletter Subscription */}
       <section className="px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <Card className="glass-card border-0 bg-gradient-to-r from-violet-500/10 via-purple-500/10 to-blue-500/10">
+          <Card className="glass-card border-0 bg-gradient-to-r from-green-500/10 via-emerald-500/10 to-teal-500/10">
             <CardContent className="p-8 lg:p-12 text-center">
               <h3 className="text-2xl lg:text-3xl font-bold mb-4">
                 Stay Updated with ShopStop
@@ -418,9 +363,9 @@ export const Homepage: React.FC<HomepageProps> = ({
                 <input
                   type="email"
                   placeholder="Enter your email address"
-                  className="flex-1 px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-900/80 focus:outline-none focus:ring-2 focus:ring-violet-500"
+                  className="flex-1 px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-900/80 focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
-                <Button className="bg-gradient-to-r from-violet-500 via-purple-500 to-blue-500 hover:from-violet-600 hover:via-purple-600 hover:to-blue-600 rounded-xl px-8">
+                <Button className="bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 hover:from-green-600 hover:via-emerald-600 hover:to-teal-600 rounded-xl px-8">
                   Subscribe
                 </Button>
               </div>

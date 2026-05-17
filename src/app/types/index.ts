@@ -30,6 +30,8 @@ export interface Shop {
 
 export interface Product {
   id: string;
+  /** Maps to shop_product.listing_id in the database (for ordering / stock). */
+  listingId?: number;
   name: string;
   price: number;
   originalPrice?: number;

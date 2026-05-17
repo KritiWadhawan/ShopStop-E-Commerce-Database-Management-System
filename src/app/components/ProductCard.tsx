@@ -23,12 +23,18 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   showComparison = false,
   comparisonData = []
 }) => {
-  const { addToCart, addToCompare, compareProducts } = useApp();
+  const { addToCart, addToCompare, compareProducts, liveStock } = useApp();
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [showPriceComparison, setShowPriceComparison] = useState(false);
 
   const isInCompare = compareProducts.some(p => p.id === product.id);
+  // Prefer the live DB stock count when available, otherwise mockData.
+  const stockCount =
+    product.listingId != null && liveStock[product.listingId] != null
+      ? liveStock[product.listingId]
+      : product.stockCount;
+  const isInStock = stockCount > 0;
   const hasDiscount = product.originalPrice && product.originalPrice > product.price;
   const discountPercentage = hasDiscount 
     ? Math.round(((product.originalPrice! - product.price) / product.originalPrice!) * 100)
@@ -124,19 +130,22 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               >
                 <Heart className={`h-4 w-4 ${isWishlisted ? 'fill-current' : ''}`} />
               </Button>
-              {hasMultipleSellers && (
-                <Button
-                  size="icon"
-                  variant="secondary"
-                  className="h-10 w-10 rounded-full shadow-lg bg-white/90 hover:bg-white backdrop-blur-sm border-0"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setShowPriceComparison(!showPriceComparison);
-                  }}
-                >
-                  <Scale className="h-4 w-4" />
-                </Button>
-              )}
+              <Button
+                size="icon"
+                variant="secondary"
+                className={`h-10 w-10 rounded-full shadow-lg backdrop-blur-sm border-0 ${
+                  isInCompare
+                    ? 'bg-green-500 hover:bg-green-600 text-white'
+                    : 'bg-white/90 hover:bg-white text-gray-700'
+                }`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  addToCompare(product);
+                }}
+                title={isInCompare ? 'Already in comparison' : 'Add to compare'}
+              >
+                <Scale className="h-4 w-4" />
+              </Button>
             </div>
           </div>
         </div>
@@ -146,7 +155,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           {/* Product Name & Unit */}
           <div>
             <h3 
-              className="line-clamp-2 font-semibold text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400 transition-colors cursor-pointer" 
+              className="line-clamp-2 font-semibold text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors cursor-pointer" 
               onClick={() => onViewProduct(product)}
             >
               {product.name}
@@ -218,7 +227,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
             {/* Price Comparison Info */}
             {hasMultipleSellers && (
-              <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 p-3 rounded-lg border border-blue-200 dark:border-blue-800">
+              <div className="bg-gradient-to-r from-blue-50 to-emerald-50 dark:from-blue-900/20 dark:to-emerald-900/20 p-3 rounded-lg border border-blue-200 dark:border-blue-800">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-medium text-blue-700 dark:text-blue-300">
                     Available at {variants.length} shops
@@ -297,9 +306,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           {/* Stock & Delivery Info */}
           <div className="flex items-center justify-between">
             <div>
-              {product.inStock ? (
+              {isInStock ? (
                 <Badge className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800">
-                  ✓ In Stock ({product.stockCount})
+                  ✓ In Stock ({stockCount})
                 </Badge>
               ) : (
                 <Badge variant="destructive" className="text-xs">
@@ -317,7 +326,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
       <CardFooter className="p-4 pt-0 mt-auto">
         <Button
-          className="w-full bg-gradient-to-r from-violet-500 via-purple-500 to-blue-500 hover:from-violet-600 hover:via-purple-600 hover:to-blue-600 text-white font-semibold py-2 h-11 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 border-0"
+          className="w-full bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 hover:from-green-600 hover:via-emerald-600 hover:to-teal-600 text-white font-semibold py-2 h-11 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 border-0"
           onClick={(e) => {
             e.stopPropagation();
             addToCart(product);

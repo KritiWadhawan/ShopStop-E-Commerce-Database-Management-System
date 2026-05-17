@@ -33,7 +33,7 @@ export const OrderTracking: React.FC<OrderTrackingProps> = ({ isOpen, onClose })
       case 'placed': return 'bg-blue-500';
       case 'confirmed': return 'bg-green-500';
       case 'preparing': return 'bg-orange-500';
-      case 'out_for_delivery': return 'bg-purple-500';
+      case 'out_for_delivery': return 'bg-emerald-500';
       case 'delivered': return 'bg-green-600';
       default: return 'bg-gray-500';
     }

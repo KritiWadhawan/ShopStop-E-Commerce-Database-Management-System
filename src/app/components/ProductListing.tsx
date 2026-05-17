@@ -37,7 +37,7 @@ export const ProductListing: React.FC<ProductListingProps> = ({
   const [filters, setFilters] = useState<Filters>({
     category: selectedCategory === 'all' ? [] : [selectedCategory],
     brand: [],
-    priceRange: [0, 2000],
+    priceRange: [0, 200000],
     rating: 0,
     inStock: false
   });
@@ -120,7 +120,7 @@ export const ProductListing: React.FC<ProductListingProps> = ({
     setFilters({
       category: [],
       brand: [],
-      priceRange: [0, 2000],
+      priceRange: [0, 200000],
       rating: 0,
       inStock: false
     });
@@ -131,7 +131,7 @@ export const ProductListing: React.FC<ProductListingProps> = ({
     ...filters.brand,
     filters.rating > 0 ? 1 : 0,
     filters.inStock ? 1 : 0,
-    (filters.priceRange[0] > 0 || filters.priceRange[1] < 2000) ? 1 : 0
+    (filters.priceRange[0] > 0 || filters.priceRange[1] < 200000) ? 1 : 0
   ].length;
 
   return (
@@ -216,13 +216,13 @@ export const ProductListing: React.FC<ProductListingProps> = ({
                 <Slider
                   value={filters.priceRange}
                   onValueChange={(value) => handleFilterChange('priceRange', value)}
-                  max={2000}
-                  step={10}
+                  max={200000}
+                  step={500}
                   className="w-full"
                 />
                 <div className="flex items-center justify-between text-sm">
-                  <span>${filters.priceRange[0]}</span>
-                  <span>${filters.priceRange[1]}</span>
+                  <span>₹{filters.priceRange[0].toLocaleString('en-IN')}</span>
+                  <span>₹{filters.priceRange[1].toLocaleString('en-IN')}</span>
                 </div>
               </div>
             </div>

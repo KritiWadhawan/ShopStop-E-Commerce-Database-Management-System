@@ -2,7 +2,7 @@ import { Product, Category, User, Shop, Location } from '../types';
 
 export const categories: Category[] = [
   { id: '1', name: 'Electronics', icon: '📱', color: 'bg-blue-100 text-blue-700' },
-  { id: '2', name: 'Fashion', icon: '👕', color: 'bg-purple-100 text-purple-700' },
+  { id: '2', name: 'Fashion', icon: '👕', color: 'bg-emerald-100 text-emerald-700' },
   { id: '3', name: 'Home & Garden', icon: '🏠', color: 'bg-green-100 text-green-700' },
   { id: '4', name: 'Sports & Fitness', icon: '⚽', color: 'bg-orange-100 text-orange-700' },
   { id: '5', name: 'Automotive', icon: '🚗', color: 'bg-red-100 text-red-700' },
@@ -182,6 +182,7 @@ export const products: Product[] = [
   // Electronics from multiple sellers
   {
     id: '1',
+    listingId: 1,
     name: 'iPhone 15 Pro Max',
     price: 134900,
     originalPrice: 159900,
@@ -204,6 +205,7 @@ export const products: Product[] = [
   },
   {
     id: '1a',
+    listingId: 2,
     name: 'iPhone 15 Pro Max',
     price: 139900,
     originalPrice: 159900,
@@ -225,6 +227,7 @@ export const products: Product[] = [
   },
   {
     id: '2',
+    listingId: 3,
     name: 'Samsung Galaxy S24 Ultra',
     price: 124999,
     originalPrice: 129999,
@@ -246,6 +249,7 @@ export const products: Product[] = [
   },
   {
     id: '3',
+    listingId: 5,
     name: 'Designer Kurta Set',
     price: 2499,
     originalPrice: 3999,
@@ -268,6 +272,7 @@ export const products: Product[] = [
   },
   {
     id: '4',
+    listingId: 6,
     name: 'Wooden Dining Table',
     price: 24999,
     originalPrice: 32999,
@@ -290,6 +295,7 @@ export const products: Product[] = [
   },
   {
     id: '5',
+    listingId: 7,
     name: 'Basmati Rice Premium',
     price: 899,
     originalPrice: 999,
@@ -311,6 +317,7 @@ export const products: Product[] = [
   },
   {
     id: '6',
+    listingId: 9,
     name: 'Organic Vegetables Bundle',
     price: 599,
     image: 'https://images.unsplash.com/photo-1506368083636-6defb67639a7?w=400&h=400&fit=crop',
@@ -332,6 +339,7 @@ export const products: Product[] = [
   },
   {
     id: '7',
+    listingId: 10,
     name: 'Cricket Kit Professional',
     price: 8999,
     originalPrice: 12999,
@@ -354,6 +362,7 @@ export const products: Product[] = [
   },
   {
     id: '8',
+    listingId: 11,
     name: 'Gold Plated Earrings',
     price: 1299,
     originalPrice: 1999,
@@ -376,6 +385,7 @@ export const products: Product[] = [
   // Additional products from different sellers for comparison
   {
     id: '2a',
+    listingId: 4,
     name: 'Samsung Galaxy S24 Ultra',
     price: 119999,
     originalPrice: 129999,
@@ -396,6 +406,7 @@ export const products: Product[] = [
   },
   {
     id: '5a',
+    listingId: 8,
     name: 'Basmati Rice Premium',
     price: 849,
     originalPrice: 999,
